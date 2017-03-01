@@ -33,6 +33,7 @@ def ConnectToUAV(SimvReal):
         while gbvar.uInputLaunch == "":
             time.sleep(1)
         print("Attempting Connection to SOLO")
+        print gbvar.uInputLaunch
         if gbvar.uInputLaunch == "1":
             parser = argparse.ArgumentParser(
                 description='Print out vehicle state information. Connects to SITL on local PC by default.')
@@ -55,6 +56,26 @@ def ConnectToUAV(SimvReal):
             # Connect to the Vehicle
             print 'Connecting to vehicle on: %s' % connection_string
             gbvar.UAVS = connect(connection_string, wait_ready=True)
+
+
+        elif gbvar.uInputLaunch == "test":
+            parser = argparse.ArgumentParser(
+                description='Print out vehicle state information. Connects to SITL on local PC by default.')
+            parser.add_argument('--connect',
+                                help="Vehicle connection target string. If not specified, SITL automatically started and used.")
+            args = parser.parse_args()
+
+            import dronekit_sitl
+            sitl_c = dronekit_sitl.start_default()
+            connection_string_c = sitl_c.connection_string()
+
+            # manually specifying connection, due to some computer interferance.
+            # If running simulation using 2 computers, comment out the below line
+            connection_string_c = 'tcp:127.0.0.1:5763'
+
+            # Connect to the Vehicle
+            print 'Connecting to vehicle on: %s' % connection_string_c
+            gbvar.UAVS = connect(connection_string_c, wait_ready=True)
         time.sleep(1)
 
 
@@ -114,6 +135,7 @@ def Maneuver_TakeOff(aTargetAltitude, aUpTime):
         print "Waiting for SOLO mode change..."
         print "Current Mode: %s" % gbvar.UAVS.mode.name
         time.sleep(1)
+        print gbvar.UAVS.armed
 
     print" TAKING OFF - STAND CLEAR!"
     time.sleep(4)

@@ -39,7 +39,9 @@ def comms():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # bind socket to mother ip/port
-    HOST = 'localhost'
+    # HOST = 'localhost'
+    HOST = '156.0.0.1'
+
     PORT = 5731
     server_address = (HOST, PORT)
     print("starting up on %s port %s" % server_address)
@@ -55,44 +57,49 @@ def comms():
 
     while gbvar.out is False:  # have it listen for daughter contact
         # time cycle
-        if gbvar.now is True:
-            print("help")
-            c_time = datetime.datetime.now()
-            print "My Time is %s" % c_time
-            encode.sendPacket(sock=conn, message="Time: %s" % c_time)
-            daughter_time = encode.recievePacket(sock=conn)
-            print "daughter time is %s" % daughter_time
-            #             gbvar.now = False
-            time.sleep(1)
-        # if not an empty string, send string
-        elif gbvar.tes is not "":
-            encode.sendPacket(sock=conn, message=gbvar.tes)
-            print("Test String Sent")
-            gbvar.tes = ""
-        elif gbvar.ping is True:
-            # find gbvar.ping
-            time.sleep(1)
-            p_time_start = datetime.datetime.now()
-            encode.sendPacket(sock=conn, message="Time: %s" % p_time_start)
-            d_time_ping = encode.recievePacket(sock=conn)
-            p_time_stop = datetime.datetime.now()
-            ping_approx = p_time_stop - p_time_start
-            print "ping send: %s" % p_time_start
-            print "ping recieve: %s" % p_time_stop
-            print "daughter time is %s" % d_time_ping
-            print "suspected ping: %s" % ping_approx
-            gbvar.ping = False
-        elif gbvar.uTwoUAV is "2":
-            encode.sendPacket(conn, "connectUAV")
-            gbvar.uTwoUAV = ""
-        elif gbvar.uTwoUAV is "1":
-            encode.sendPacket(conn, "connectSITL")
-        elif gbvar.sendMan is not []:
-            encode.sendPacket(conn, gbvar.sendMan)
-            gbvar.sendMan = []
-        else:
+        try:
+            if gbvar.now is True:
+                print("help")
+                c_time = datetime.datetime.now()
+                print "My Time is %s" % c_time
+                encode.sendPacket(sock=conn, message="Time: %s" % c_time)
+                daughter_time = encode.recievePacket(sock=conn)
+                print "daughter time is %s" % daughter_time
+                #             gbvar.now = False
+                time.sleep(1)
+            # if not an empty string, send string
+            elif gbvar.tes is not "":
+                encode.sendPacket(sock=conn, message=gbvar.tes)
+                print("Test String Sent")
+                gbvar.tes = ""
+            elif gbvar.ping is True:
+                # find gbvar.ping
+                time.sleep(1)
+                p_time_start = datetime.datetime.now()
+                encode.sendPacket(sock=conn, message="Time: %s" % p_time_start)
+                d_time_ping = encode.recievePacket(sock=conn)
+                p_time_stop = datetime.datetime.now()
+                ping_approx = p_time_stop - p_time_start
+                print "ping send: %s" % p_time_start
+                print "ping recieve: %s" % p_time_stop
+                print "daughter time is %s" % d_time_ping
+                print "suspected ping: %s" % ping_approx
+                gbvar.ping = False
+            elif gbvar.uTwoUAV == "2":
+                encode.sendPacket(sock=conn, message="connectUAV")
+                gbvar.uTwoUAV = ""
+            elif gbvar.uTwoUAV == "1":
+                encode.sendPacket(sock=conn, message="connectSITL")
+                gbvar.uTwoUAV = ""
+            elif gbvar.sendMan[0] == "man":
+                encode.sendPacket(conn, gbvar.sendMan)
+                gbvar.sendMan = []
+            else:
+                print gbvar.uTwoUAV
+                time.sleep(1)
+                pass
+        except:
             pass
-
     # closes comm
     # send out "out"
     # loop closeing send until recieved back

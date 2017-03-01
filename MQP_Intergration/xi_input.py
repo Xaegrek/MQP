@@ -37,8 +37,10 @@ def quiting():
 # request string to be sent
 # not really needed for auto systems
 def test():
-    gbvar.tes = raw_input("input string: ")
-
+    # gbvar.tes = raw_input("input string: ")
+    print gbvar.sendMan
+    print gbvar.uTwoUAV
+    print gbvar.uTwoUAV is "1"
 
 # Sets time loop
 # represents constant back and forth

@@ -54,7 +54,9 @@ def comms():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # bind to mother (server) port
-    MOTHER_IP = 'localhost'
+    # MOTHER_IP = 'localhost'
+    MOTHER_IP = '156.0.0.1'
+
     PORT = 5731
     server_address = (MOTHER_IP, PORT)
     print("connecting to %s port %s" % server_address)
@@ -74,15 +76,16 @@ def comms():
         # try to recieve message
         try:
             rcv = encode.recievePacket(sock=sock)
+            print rcv
             # use of message
             if isinstance(rcv, basestring):
                 if rcv == "out":
                     quit()
                 # c ould be used to mark state data sent
                 elif rcv == "connectUAV":
-                    gbvar.uInputLaunch = 1
+                    gbvar.uInputLaunch = "1"
                 elif rcv == "connectSITL":
-                    gbvar.uInputLaunch = 0
+                    gbvar.uInputLaunch = "test"
                 elif rcv.startswith("test"):
                     print("Marker Detected")
                     print("Into the %s") % rcv[5:]
@@ -91,10 +94,10 @@ def comms():
                     print("Mother time is %s, my time is %s" % (rcv[6:], c_time))
                     encode.sendPacket(sock=sock, message=c_time)
                 else:
-                    print rcv
                     pass
             elif isinstance(rcv, list):
                 if rcv[0] == "man":
+                    print rcv
                     gbvar.manC = rcv
                 else:
                     print rcv
