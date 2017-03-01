@@ -75,7 +75,7 @@ def xinput():
         elif c == "tag":
             print gbvar.dstreamsplit_camera
         elif c == "gps":
-            print "Coordinates are: %S" % gbvar.dstream_GPS_globalRelative
+            print "Coordinates are: %s" % gbvar.dstream_GPS_globalRelative
         elif c == "man":
             gbvar.manOnOff = "on"
 
