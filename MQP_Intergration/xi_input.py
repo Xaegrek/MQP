@@ -22,6 +22,7 @@ import time
 import datetime
 import TCP_encoding as encode
 import Flight_Maneuvers as flyman
+import os
 
 # loop quiting variables
 import Global_Var as gbvar
@@ -64,6 +65,7 @@ def xinput():
         if c == "q":
             print("Quitting")
             quiting()
+            print gbvar.out
         elif c == "test":
             print("Test String to Send")
             test()
@@ -78,5 +80,17 @@ def xinput():
             print "Coordinates are: %s" % gbvar.dstream_GPS_globalRelative
         elif c == "man":
             gbvar.manOnOff = "on"
+        elif c == "LCommand":   # not for camera, make thread for that
+            q = False
+            while q == False:
+                cl = raw_input("Linux Command:")
+                if cl == "leave":
+                    q = True
+                else:
+                    os.system(cl)
+        elif c == "help":
+            print("q = quit, test = test string to send, time = send times between pis, ping = find delay between signal, tag = show current apriltag reading, gps = show gps coordinates, man = select maneuver, LCommand = allows linuks commands, leave to exit")
+
+
 
     return

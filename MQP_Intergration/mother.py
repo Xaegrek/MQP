@@ -39,8 +39,8 @@ def comms():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # bind socket to mother ip/port
-    # HOST = 'localhost'
-    HOST = '156.0.0.1'
+    HOST = 'localhost'
+    # HOST = '156.0.0.1'
 
     PORT = 5731
     server_address = (HOST, PORT)

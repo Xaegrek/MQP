@@ -27,6 +27,9 @@ def doCameraMsg(self):
     while True:
         gbvar.dstream_camera = self.request.recv(56)
         gbvar.dstreamsplit_camera = gbvar.dstream_camera.split(',')
+        # print gbvar.dstream_camera
+        # print gbvar.dstreamsplit_camera
+        # fTemp = str(':s, :s, :s, :s, :s, :s, :s \a' % gbvar.dstreamsplit_camera[0], gbvar.dstreamsplit_camera[1], gbvar.dstreamsplit_camera[2], gbvar.dstreamsplit_camera[3], gbvar.dstreamsplit_camera[4], gbvar.dstreamsplit_camera[5], gbvar.dstreamsplit_camera[6])
         # print gbvar.datastream.split(',')
         break
 
@@ -56,7 +59,12 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
     """
 
     def handle(self):
-        while True:
+        taf = True
+        while taf == True:
+            # print gbvar.dstream_camera
+            f = open('tagdata.txt', 'a')
+            abas = str('%s \n' % gbvar.dstream_camera)
+            f.write(abas)
             msg_type = self.request.recv(1).strip()
             if not msg_type:
                 break
@@ -73,8 +81,8 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
             # print "msg_type = ", msg_type
             # print "length = ", length # = 56 for camera, 24 for lidar
             if msg_type == 'C':
-                doCameraMsg(self)
-                continue
+               doCameraMsg(self)
+               continue
             elif msg_type == 'L':
                 doLidarMsg(self)
                 continue
@@ -82,7 +90,10 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
                 # print length
                 # data = self.request.recv(length)
                 # print "full msg data: ", data
-
+            if gbvar.out is True:
+                taf = False
+                f.close()
+                print "closed"
         print "done"
 
 
@@ -90,6 +101,9 @@ def sensorServer():
     if gbvar.data is True:
         HOST, PORT = "localhost", 9999
         # Create the server, binding to localhost on port 9999
+        f = open('tagdata.txt', 'w')
+        f.write('List of Tag Information Stream \n')
+        f.close()
         sensorserver = SocketServer.TCPServer((HOST, PORT), MyTCPHandler)
 
         # Activate the server; this will keep running until you

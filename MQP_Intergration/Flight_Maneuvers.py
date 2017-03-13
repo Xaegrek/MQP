@@ -81,11 +81,18 @@ def ConnectToUAV(SimvReal):
 
 def DataStreamGPS_IMU():
     ConnectToUAV(gbvar.uInputLaunch)
+    # time.sleep(0.3)
+    f = open('gpsdata.txt', 'w')
+    f.write('List of Tag Information Stream \n')
+    f.close()
     while gbvar.data is True:
         gbvar.dstream_GPS_global = gbvar.UAVS.location.global_frame
         gbvar.dstream_GPS_globalRelative = gbvar.UAVS.location.global_relative_frame
         gbvar.dstream_localFrame = gbvar.UAVS.location.local_frame
-        # time.sleep(0.3)
+        f = open('gpsdata.txt', 'a')
+        abas = str('%s \n' % gbvar.dstream_GPS_globalRelative)
+        f.write(abas)
+
     print "GPS and IMU not being recieved"
 
 

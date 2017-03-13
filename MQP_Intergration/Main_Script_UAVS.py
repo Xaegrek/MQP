@@ -19,6 +19,8 @@
 # or find a way to add interrupt
 # or find issue :/
 
+# don't start server for case 0,
+
 
 #
 
@@ -27,7 +29,7 @@ import socket
 import sys
 import threading
 import time
-import Kalman_Script as kalmanFilter
+import KalmanBase as kalmanFilter
 import Sensor_Stream as sensorData
 import mother as motherServer
 import xi_input
@@ -39,7 +41,7 @@ while (gbvar.uInputLaunch != "1" and gbvar.uInputLaunch != "0"):
     print "Enter 1 for live tests, or Enter 0 to run the UAV Simulation (primarily for debug purposes)"
     gbvar.uInputLaunch = raw_input("")
 
-while (gbvar.uTwoUAV != 2 and gbvar.uTwoUAV != "1" and gbvar.uTwoUAV != "0"):
+while (gbvar.uTwoUAV != "2" and gbvar.uTwoUAV != "1" and gbvar.uTwoUAV != "0"):
     print "Enter 2 for a Live second UAV, Enter 1 to use a second UAV simulation, or Enter 0 to run with a single uav."
     gbvar.uTwoUAV = raw_input("")
 flightman.ConnectToUAV(gbvar.uInputLaunch)

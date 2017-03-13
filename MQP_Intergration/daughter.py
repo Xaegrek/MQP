@@ -36,9 +36,8 @@ COMMS_DELAY = 1
 
 # quit connection
 def quit():
-    global out
-    out = True
-    return
+    gbvar.out = True
+    return gbvar.out
 
 
 def currentTime():
@@ -54,8 +53,8 @@ def comms():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # bind to mother (server) port
-    # MOTHER_IP = 'localhost'
-    MOTHER_IP = '156.0.0.1'
+    MOTHER_IP = 'localhost'
+    # MOTHER_IP = '156.0.0.1'
 
     PORT = 5731
     server_address = (MOTHER_IP, PORT)
@@ -72,7 +71,7 @@ def comms():
     # delay to avoid timeout
     time.sleep(COMMS_DELAY)
 
-    while out == False:
+    while gbvar.out == False:
         # try to recieve message
         try:
             rcv = encode.recievePacket(sock=sock)
