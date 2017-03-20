@@ -105,7 +105,7 @@ def sensorServer():
         f.write('List of Tag Information Stream \n')
         f.close()
         sensorserver = SocketServer.TCPServer((HOST, PORT), MyTCPHandler)
-
+        gbvar.april = True
         # Activate the server; this will keep running until you
         # interrupt the program with Ctrl-C
         sensorserver.serve_forever()

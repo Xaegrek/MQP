@@ -36,6 +36,14 @@ import xi_input
 import daughter as daughterClient
 import Flight_Maneuvers as flightman
 import Global_Var as gbvar
+import os
+
+
+def AprilServer():
+    while gbvar.out is False:
+        if gbvar.april is True:
+            time.sleep(5)
+            os.system("/dev/mqp-quadrotor/bin/camera")  # Make sure directory is correct
 
 while (gbvar.uInputLaunch != "1" and gbvar.uInputLaunch != "0"):
     print "Enter 1 for live tests, or Enter 0 to run the UAV Simulation (primarily for debug purposes)"
@@ -59,6 +67,7 @@ kalman_thread = threading.Thread(name="kalman_thread", target=kalmanFilter.mainK
 sensor_thread = threading.Thread(name="sensor_thread", target=sensorData.sensorServer)
 imugps_thread = threading.Thread(name="gps and imu thread", target=flightman.DataStreamGPS_IMU)
 flight_thread = threading.Thread(name="flight thread", target=flightman.flyMaster)
+cam_thread = threading.Thread(name="apriltag cam thread", target=AprilServer)
 
 # init thread
 xi_thread.start()
@@ -67,6 +76,7 @@ kalman_thread.start()
 sensor_thread.start()
 imugps_thread.start()
 flight_thread.start()
+cam_thread.start()
 
 # adds them to main (this) thread
 xi_thread.join()
@@ -74,4 +84,5 @@ comms_thread.join()
 kalman_thread.join()
 sensor_thread.join()
 imugps_thread.join()
-flight_thread.join(h)
+flight_thread.join()
+cam_thread.join()

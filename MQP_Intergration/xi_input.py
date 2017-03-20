@@ -88,9 +88,23 @@ def xinput():
                     q = True
                 else:
                     os.system(cl)
+        elif c == "help man":
+            print "list of maneuvers after typing 'man'"
+            print "0 == sleep for 5 seconds/cancel"
+            print "1 == fly to x altitude for y seconds"
+            print "2a == fly to a relative coordinate (dx,dy), and back again"
+            print "2b == fly at a specified velocity for x seconds, and back again"
         elif c == "help":
-            print("q = quit, test = test string to send, time = send times between pis, ping = find delay between signal, tag = show current apriltag reading, gps = show gps coordinates, man = select maneuver, LCommand = allows linuks commands, leave to exit")
-
+            print "q == Quitting"
+            print "test == Send a test string between UAVs, useful for debugging"
+            print "time == shows current time on both UAVs"
+            print "ping == finds delay between both pis"
+            print "tag == shows the most recent apriltag reading"
+            print "gps == shows most recent gps reading, in global relative"
+            print "man == allows running of various maneuvers"
+            print "LCommand == allows running of Linux Terminal Commands in python, q to quit"
+            print "help == this help menu"
+            print "help man == lists manuevers that can be run on the SOLOs"
 
 
     return

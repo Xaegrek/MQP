@@ -31,6 +31,7 @@ ping = False
 data = True
 tes = ""
 sendMan = []
+april = False
 
 # DataStreams, primariy from Sensor_Stream.py
 dstream_camera = ""
